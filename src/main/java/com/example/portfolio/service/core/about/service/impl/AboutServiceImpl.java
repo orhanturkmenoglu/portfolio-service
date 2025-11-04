@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -38,26 +37,14 @@ public class AboutServiceImpl implements AboutService {
         About savedAbout = aboutRepository.save(about);
         log.info("AboutServiceImpl.createAbout() method success, id={}", savedAbout.getId());
 
-        return convertToAboutResponseDTO(savedAbout);
-    }
-
-    @Override
-    public List<AboutResponseDTO> getAbouts() {
-       return aboutRepository.findAll()
-               .stream()
-               .map(this::convertToAboutResponseDTO)
-               .toList();
-    }
-
-    private AboutResponseDTO convertToAboutResponseDTO(About about) {
-        return AboutResponseDTO.builder()
-                .id(about.getId())
-                .title(about.getTitle())
-                .description(about.getDescription())
-                .icon(about.getIcon())
-                .color(about.getColor())
-                .createdAt(about.getCreatedAt())
-                .updatedAt(about.getUpdatedAt())
+        return  AboutResponseDTO.builder()
+                .id(savedAbout.getId())
+                .title(savedAbout.getTitle())
+                .description(savedAbout.getDescription())
+                .icon(savedAbout.getIcon())
+                .color(savedAbout.getColor())
+                .createdAt(savedAbout.getCreatedAt())
+                .updatedAt(savedAbout.getUpdatedAt())
                 .build();
     }
 }
