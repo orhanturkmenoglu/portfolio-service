@@ -1,11 +1,11 @@
 package com.example.portfolio.service.core.about.controller;
 
+import com.example.portfolio.service.common.base.BaseResponse;
 import com.example.portfolio.service.core.about.dto.request.AboutRequestDTO;
 import com.example.portfolio.service.core.about.dto.response.AboutResponseDTO;
 import com.example.portfolio.service.core.about.service.AboutService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,15 +35,21 @@ public class AboutController {
                             description = "About created successfully",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = AboutResponseDTO.class)
+                                    schema = @Schema(implementation = BaseResponse.class)
                             )
                     ),
                     @ApiResponse(responseCode = "400", description = "Invalid request data")
             })
     @PostMapping
-    public ResponseEntity<AboutResponseDTO> createAbout(@Valid @RequestBody AboutRequestDTO aboutRequestDTO) {
-        AboutResponseDTO aboutResponseDTO = aboutService.createAbout(aboutRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(aboutResponseDTO);
+    public ResponseEntity<BaseResponse<AboutResponseDTO>> createAbout(
+            @Valid @RequestBody AboutRequestDTO aboutRequestDTO) {
+        var aboutResponseDTO = aboutService.createAbout(aboutRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(BaseResponse.success(
+                        aboutResponseDTO,
+                        "About created successfully",
+                        HttpStatus.CREATED.value()
+                ));
     }
 
     @Operation(
@@ -55,14 +61,19 @@ public class AboutController {
                             description = "Successful",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = AboutResponseDTO.class)
+                                    schema = @Schema(implementation = BaseResponse.class)
                             )
                     )
             }
     )
     @GetMapping
-    public ResponseEntity<List<AboutResponseDTO>> getAbouts (){
-        return ResponseEntity.ok(aboutService.getAbouts());
+    public ResponseEntity<BaseResponse<List<AboutResponseDTO>>> getAbouts() {
+        var aboutList = aboutService.getAbouts();
+        return ResponseEntity.ok(BaseResponse.success(
+                aboutList,
+                "Fetched all About records",
+                HttpStatus.OK.value()
+        ));
     }
 
     @Operation(
@@ -74,18 +85,21 @@ public class AboutController {
                             description = "Successful",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = AboutResponseDTO.class)
+                                    schema = @Schema(implementation = BaseResponse.class)
                             )
                     ),
                     @ApiResponse(responseCode = "404", description = "Record not found")
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<AboutResponseDTO> getAboutById(@PathVariable String id) {
+    public ResponseEntity<BaseResponse<AboutResponseDTO>> getAboutById(@PathVariable String id) {
         AboutResponseDTO about = aboutService.getAboutById(id);
-        return ResponseEntity.ok(about);
+        return ResponseEntity.ok(BaseResponse.success(
+                about,
+                "Fetched About record",
+                HttpStatus.OK.value()
+        ));
     }
-
 
     @Operation(
             summary = "Update About by ID",
@@ -96,7 +110,7 @@ public class AboutController {
                             description = "Update successful",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = AboutResponseDTO.class)
+                                    schema = @Schema(implementation = BaseResponse.class)
                             )
                     ),
                     @ApiResponse(responseCode = "404", description = "Record not found"),
@@ -104,25 +118,37 @@ public class AboutController {
             }
     )
     @PutMapping("/{id}")
-    public ResponseEntity<AboutResponseDTO> updateAboutById(
+    public ResponseEntity<BaseResponse<AboutResponseDTO>> updateAboutById(
             @PathVariable String id,
             @Valid @RequestBody AboutRequestDTO aboutRequestDTO
     ) {
-        AboutResponseDTO updated = aboutService.updateAboutById(id, aboutRequestDTO);
-        return ResponseEntity.ok(updated);
+        var updated = aboutService.updateAboutById(id, aboutRequestDTO);
+        return ResponseEntity.ok(BaseResponse.success(
+                updated,
+                "About updated successfully",
+                HttpStatus.OK.value()
+        ));
     }
 
     @Operation(
             summary = "Delete About by ID",
             description = "Deletes an About record by its ID.",
             responses = {
-                    @ApiResponse(responseCode = "204", description = "Delete successful"),
+                    @ApiResponse(responseCode = "200", description = "Delete successful",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = BaseResponse.class)
+                            )),
                     @ApiResponse(responseCode = "404", description = "Record not found")
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAboutById(@PathVariable String id) {
+    public ResponseEntity<BaseResponse<Void>> deleteAboutById(@PathVariable String id) {
         aboutService.deleteAboutById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(BaseResponse.success(
+                null,
+                "About deleted successfully",
+                HttpStatus.OK.value()
+        ));
     }
 }

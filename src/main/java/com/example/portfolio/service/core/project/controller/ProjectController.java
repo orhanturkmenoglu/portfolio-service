@@ -1,5 +1,6 @@
 package com.example.portfolio.service.core.project.controller;
 
+import com.example.portfolio.service.common.base.BaseResponse;
 import com.example.portfolio.service.core.project.dto.request.ProjectRequestDTO;
 import com.example.portfolio.service.core.project.dto.response.ProjectResponseDTO;
 import com.example.portfolio.service.core.project.service.ProjectService;
@@ -24,7 +25,6 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-
     @Operation(
             summary = "Create a new project",
             description = "Creates a new project entry in the portfolio.",
@@ -34,16 +34,21 @@ public class ProjectController {
                             description = "Project created successfully",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ProjectResponseDTO.class)
+                                    schema = @Schema(implementation = BaseResponse.class)
                             )
                     ),
                     @ApiResponse(responseCode = "400", description = "Invalid request data")
             }
     )
     @PostMapping
-    public ResponseEntity<ProjectResponseDTO> createProject(@Valid @RequestBody ProjectRequestDTO dto) {
+    public ResponseEntity<BaseResponse<ProjectResponseDTO>> createProject(@Valid @RequestBody ProjectRequestDTO dto) {
         ProjectResponseDTO created = projectService.createProject(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(BaseResponse.success(
+                        created,
+                        "Project created successfully",
+                        HttpStatus.CREATED.value()
+                ));
     }
 
     @Operation(
@@ -55,15 +60,19 @@ public class ProjectController {
                             description = "Successful",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ProjectResponseDTO.class)
+                                    schema = @Schema(implementation = BaseResponse.class)
                             )
                     )
             }
     )
     @GetMapping
-    public ResponseEntity<List<ProjectResponseDTO>> getProjects() {
+    public ResponseEntity<BaseResponse<List<ProjectResponseDTO>>> getProjects() {
         List<ProjectResponseDTO> list = projectService.getProjects();
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(BaseResponse.success(
+                list,
+                "Fetched all projects",
+                HttpStatus.OK.value()
+        ));
     }
 
     @Operation(
@@ -75,16 +84,20 @@ public class ProjectController {
                             description = "Successful",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ProjectResponseDTO.class)
+                                    schema = @Schema(implementation = BaseResponse.class)
                             )
                     ),
                     @ApiResponse(responseCode = "404", description = "Project not found")
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectResponseDTO> getProjectById(@PathVariable String id) {
+    public ResponseEntity<BaseResponse<ProjectResponseDTO>> getProjectById(@PathVariable String id) {
         ProjectResponseDTO dto = projectService.getProjectById(id);
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(BaseResponse.success(
+                dto,
+                "Fetched project",
+                HttpStatus.OK.value()
+        ));
     }
 
     @Operation(
@@ -96,7 +109,7 @@ public class ProjectController {
                             description = "Update successful",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ProjectResponseDTO.class)
+                                    schema = @Schema(implementation = BaseResponse.class)
                             )
                     ),
                     @ApiResponse(responseCode = "404", description = "Project not found"),
@@ -104,25 +117,37 @@ public class ProjectController {
             }
     )
     @PutMapping("/{id}")
-    public ResponseEntity<ProjectResponseDTO> updateProjectById(
+    public ResponseEntity<BaseResponse<ProjectResponseDTO>> updateProjectById(
             @PathVariable String id,
             @Valid @RequestBody ProjectRequestDTO dto
     ) {
         ProjectResponseDTO updated = projectService.updateProjectById(id, dto);
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(BaseResponse.success(
+                updated,
+                "Project updated successfully",
+                HttpStatus.OK.value()
+        ));
     }
 
     @Operation(
             summary = "Delete project by ID",
             description = "Deletes a project by its ID.",
             responses = {
-                    @ApiResponse(responseCode = "204", description = "Delete successful"),
+                    @ApiResponse(responseCode = "200", description = "Delete successful",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = BaseResponse.class)
+                            )),
                     @ApiResponse(responseCode = "404", description = "Project not found")
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProjectById(@PathVariable String id) {
+    public ResponseEntity<BaseResponse<Void>> deleteProjectById(@PathVariable String id) {
         projectService.deleteProjectById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(BaseResponse.success(
+                null,
+                "Project deleted successfully",
+                HttpStatus.OK.value()
+        ));
     }
 }

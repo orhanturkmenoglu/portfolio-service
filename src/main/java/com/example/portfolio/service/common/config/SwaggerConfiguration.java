@@ -1,4 +1,4 @@
-package com.example.portfolio.service.config.swagger;
+package com.example.portfolio.service.common.config;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
