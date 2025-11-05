@@ -1,11 +1,18 @@
 package com.example.portfolio.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@RequiredArgsConstructor
 public class PortfolioServiceApplication {
 
+	private final   CacheManager cacheManager;
 	public static void main(String[] args) {
 		SpringApplication.run(PortfolioServiceApplication.class, args);
 

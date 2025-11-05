@@ -8,6 +8,7 @@ import com.example.portfolio.service.core.project.repository.ProjectRepository;
 import com.example.portfolio.service.core.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectMapper.toProjectResponse(saved);
     }
 
+    @Cacheable("projects")
     @Override
     public List<ProjectResponseDTO> getProjects() {
         return projectRepository.findAll()

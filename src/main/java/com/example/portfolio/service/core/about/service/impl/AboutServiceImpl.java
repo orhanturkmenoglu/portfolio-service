@@ -3,11 +3,11 @@ package com.example.portfolio.service.core.about.service.impl;
 import com.example.portfolio.service.core.about.dto.request.AboutRequestDTO;
 import com.example.portfolio.service.core.about.dto.response.AboutResponseDTO;
 import com.example.portfolio.service.core.about.mapper.AboutMapper;
-import com.example.portfolio.service.core.about.model.About;
 import com.example.portfolio.service.core.about.repository.AboutRepository;
 import com.example.portfolio.service.core.about.service.AboutService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +42,7 @@ public class AboutServiceImpl implements AboutService {
         return aboutMapper.toResponseDTO(savedAbout);
     }
 
+    @Cacheable("abouts")
     @Override
     public List<AboutResponseDTO> getAbouts() {
        return aboutRepository.findAll()

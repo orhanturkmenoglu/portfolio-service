@@ -7,8 +7,8 @@ import com.example.portfolio.service.core.work.repository.WorkRepository;
 import com.example.portfolio.service.core.work.service.WorkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
@@ -38,6 +38,8 @@ public class WorkServiceImpl implements WorkService {
         return workMapper.toResponseDTO(savedWork);
     }
 
+
+    @Cacheable("works")
     @Override
     public List<WorkResponseDTO> getAllWorks() {
         log.info("Fetching all works");
