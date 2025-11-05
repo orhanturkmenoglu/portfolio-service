@@ -1,5 +1,6 @@
 package com.example.portfolio.service.core.user.service.impl;
 
+import com.example.portfolio.service.common.enums.Role;
 import com.example.portfolio.service.core.user.dto.request.LoginRequestDTO;
 import com.example.portfolio.service.core.user.dto.request.RegisterRequestDTO;
 import com.example.portfolio.service.core.user.dto.response.LoginResponseDTO;
@@ -33,7 +34,7 @@ public class UserServiceImpl implements UserService {
     var user = userMapper.toEntity(requestDTO);
     user.setCreatedAt(LocalDateTime.now());
     user.setUpdatedAt(LocalDateTime.now());
-    user.setRole("USER");
+    user.setRole(Role.ROLE_USER.name());
     user.setStatus("ACTIVE");
     user.setImage("XXXXXXXXXXXXXXXXXXXXXXXXX");
 
