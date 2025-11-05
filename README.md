@@ -34,7 +34,7 @@ A Spring Boot REST API for managing portfolio data including **About**, **Work E
 
 ## Technologies
 
-- Java 17
+- Java 17 and 21
 - Spring Boot 3.x
 - Spring Data MongoDB
 - Lombok
