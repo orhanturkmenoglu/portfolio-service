@@ -16,15 +16,34 @@ Clean Architecture prensipleriyle uyumludur: veri taşıma objeleri domain’i k
 Pattern matching ve switch expressions ile daha rahat çalışır.
  */
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
 // Null alanlar frontende iletilmez.
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Builder
-public record AboutResponseDTO(String id, String title, String description,
-                               String icon, String color,
-                               LocalDateTime createdAt,LocalDateTime updatedAt) {
+@Schema(description = "About Response DTO")
+public record AboutResponseDTO(
+
+        @Schema(description = "About ID", example = "1")
+        String id,
+        @Schema(description = "About Title", example = "About Title")
+        String title,
+        @Schema(description = "About Description", example = "About Description")
+        String description,
+
+        @Schema(description = "About Icon", example = "About Icon")
+        String icon,
+        @Schema(description = "About Color", example = "About Color")
+        String color,
+
+        @JsonFormat(pattern = "dd-MM-YYYY")
+        @Schema(description = "About Created At", example = "05-11-2025")
+        LocalDateTime createdAt,
+
+        @JsonFormat(pattern = "dd-MM-YYYY")
+        @Schema(description = "About Updated At", example = "05-11-2025")
+        LocalDateTime updatedAt) {
 }
