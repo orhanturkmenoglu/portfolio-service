@@ -10,4 +10,10 @@ public interface AboutService {
     AboutResponseDTO createAbout(AboutRequestDTO aboutRequestDTO);
 
     List<AboutResponseDTO> getAbouts();
+
+    AboutResponseDTO getAboutById(String id);
+
+    void deleteAboutById(String id);
+
+    AboutResponseDTO updateAboutById(String id,AboutRequestDTO aboutRequestDTO);
 }

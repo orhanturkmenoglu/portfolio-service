@@ -2,6 +2,7 @@ package com.example.portfolio.service.core.about.service.impl;
 
 import com.example.portfolio.service.core.about.dto.request.AboutRequestDTO;
 import com.example.portfolio.service.core.about.dto.response.AboutResponseDTO;
+import com.example.portfolio.service.core.about.mapper.AboutMapper;
 import com.example.portfolio.service.core.about.model.About;
 import com.example.portfolio.service.core.about.repository.AboutRepository;
 import com.example.portfolio.service.core.about.service.AboutService;
@@ -18,6 +19,7 @@ import java.util.Objects;
 @Slf4j
 public class AboutServiceImpl implements AboutService {
     private final AboutRepository aboutRepository;
+    private final AboutMapper aboutMapper;
 
     @Override
     public AboutResponseDTO createAbout(AboutRequestDTO aboutRequestDTO) {
@@ -27,37 +29,70 @@ public class AboutServiceImpl implements AboutService {
             log.error("AboutServiceImpl.createAbout() received null AboutRequestDTO");
             throw new IllegalArgumentException("AboutRequestDTO cannot be null");
         }
-       About about = About.builder()
-               .title(aboutRequestDTO.getTitle())
-               .description(aboutRequestDTO.getDescription())
-               .icon(aboutRequestDTO.getIcon())
-               .color(aboutRequestDTO.getColor())
-               .createdAt(LocalDateTime.now())
-               .updatedAt(LocalDateTime.now())
-               .build();
-        About savedAbout = aboutRepository.save(about);
+
+        var about = aboutMapper.toEntity(aboutRequestDTO);
+        about.setCreatedAt(LocalDateTime.now());
+        about.setUpdatedAt(LocalDateTime.now());
+
+        var savedAbout = aboutRepository.save(about);
         log.info("AboutServiceImpl.createAbout() method success, id={}", savedAbout.getId());
 
-        return convertToAboutResponseDTO(savedAbout);
+        return aboutMapper.toResponseDTO(savedAbout);
     }
 
     @Override
     public List<AboutResponseDTO> getAbouts() {
        return aboutRepository.findAll()
                .stream()
-               .map(this::convertToAboutResponseDTO)
+               .map(aboutMapper::toResponseDTO)
                .toList();
     }
 
-    private AboutResponseDTO convertToAboutResponseDTO(About about) {
-        return AboutResponseDTO.builder()
-                .id(about.getId())
-                .title(about.getTitle())
-                .description(about.getDescription())
-                .icon(about.getIcon())
-                .color(about.getColor())
-                .createdAt(about.getCreatedAt())
-                .updatedAt(about.getUpdatedAt())
-                .build();
+    @Override
+    public AboutResponseDTO getAboutById(String id) {
+        log.info("AboutServiceImpl.getAboutById() method called, id={}", id);
+
+        return aboutRepository.findById(id)
+                .map(aboutMapper::toResponseDTO)
+                .orElseThrow(() -> {
+            log.error("AboutServiceImpl.getAboutById() method failed, id={}", id);
+            return new IllegalArgumentException("About not found");
+        });
     }
+
+    @Override
+    public void deleteAboutById(String id) {
+        aboutRepository.findById(id)
+                .ifPresentOrElse(
+                        about -> {
+                            aboutRepository.delete(about);
+                            log.info("AboutServiceImpl.deleteAboutById() method success, id={}", id);
+                        },
+                        () -> {
+                            log.error("AboutServiceImpl.deleteAboutById() method failed, id={}", id);
+                            throw new IllegalArgumentException("About not found");
+                        });
+    }
+
+    @Override
+    public AboutResponseDTO updateAboutById(String id, AboutRequestDTO aboutRequestDTO) {
+        log.info("AboutServiceImpl.updateAboutById() method called, id={}", id);
+
+        var existingAbout = aboutRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("AboutServiceImpl.updateAboutById() method failed, id={}", id);
+                    return new IllegalArgumentException("About not found");
+                });
+
+        existingAbout.setTitle(aboutRequestDTO.getTitle());
+        existingAbout.setDescription(aboutRequestDTO.getDescription());
+        existingAbout.setIcon(aboutRequestDTO.getIcon());
+        existingAbout.setColor(aboutRequestDTO.getColor());
+        existingAbout.setUpdatedAt(LocalDateTime.now());
+
+        var updatedAbout = aboutRepository.save(existingAbout);
+        log.info("AboutServiceImpl.updateAboutById() method success, id={}", updatedAbout.getId());
+        return aboutMapper.toResponseDTO(updatedAbout);
+    }
+
 }
