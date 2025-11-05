@@ -84,10 +84,7 @@ public class AboutServiceImpl implements AboutService {
                     return new IllegalArgumentException("About not found");
                 });
 
-        existingAbout.setTitle(aboutRequestDTO.getTitle());
-        existingAbout.setDescription(aboutRequestDTO.getDescription());
-        existingAbout.setIcon(aboutRequestDTO.getIcon());
-        existingAbout.setColor(aboutRequestDTO.getColor());
+        aboutMapper.updateEntityFromDto(aboutRequestDTO, existingAbout);
         existingAbout.setUpdatedAt(LocalDateTime.now());
 
         var updatedAbout = aboutRepository.save(existingAbout);

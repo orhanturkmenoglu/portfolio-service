@@ -5,6 +5,7 @@ import com.example.portfolio.service.core.about.dto.response.AboutResponseDTO;
 import com.example.portfolio.service.core.about.model.About;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface AboutMapper {
@@ -17,5 +18,9 @@ public interface AboutMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     About toEntity(AboutRequestDTO aboutRequestDTO);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    void updateEntityFromDto(AboutRequestDTO dto, @MappingTarget About about);
 
 }
