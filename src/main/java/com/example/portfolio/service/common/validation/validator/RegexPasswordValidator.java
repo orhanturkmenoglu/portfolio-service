@@ -1,5 +1,6 @@
-package com.example.portfolio.service.common.validation;
+package com.example.portfolio.service.common.validation.validator;
 
+import com.example.portfolio.service.common.validation.RegexPassword;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

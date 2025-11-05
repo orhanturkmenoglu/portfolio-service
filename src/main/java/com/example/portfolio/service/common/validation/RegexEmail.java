@@ -1,5 +1,6 @@
 package com.example.portfolio.service.common.validation;
 
+import com.example.portfolio.service.common.validation.validator.RegexEmailValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
