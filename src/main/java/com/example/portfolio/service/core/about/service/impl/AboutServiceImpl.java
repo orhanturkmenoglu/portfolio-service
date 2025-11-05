@@ -9,6 +9,7 @@ import com.example.portfolio.service.core.about.service.AboutService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +22,7 @@ public class AboutServiceImpl implements AboutService {
     private final AboutRepository aboutRepository;
     private final AboutMapper aboutMapper;
 
+    @Transactional
     @Override
     public AboutResponseDTO createAbout(AboutRequestDTO aboutRequestDTO) {
        log.info("AboutServiceImpl.createAbout() method called");

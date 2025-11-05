@@ -9,6 +9,7 @@ import com.example.portfolio.service.core.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
 
+    @Transactional
     @Override
     public ProjectResponseDTO createProject(ProjectRequestDTO dto) {
         log.info("ProjectService.createProject() called");
