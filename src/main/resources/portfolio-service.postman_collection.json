@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "702049d8-3829-4a48-ad16-5178432507a8",
+		"name": "Portfolio Service API Tests",
+		"description": "Spring Boot tabanlı Portfolio Service projesinin Postman test koleksiyonu. Bu koleksiyon 'about', 'project', 'skill' ve 'work' endpointleri için CRUD işlemlerini içerir.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "About",
+			"item": [
+				{
+					"name": "Add About",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"icon\": \"FaPaintBrush\",\n  \"title\": \"UI/UX Focused\",\n  \"description\": \"Building intuitive, modern, and responsive user interfaces with React.\",\n  \"color\": \"pink\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/abouts",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "abouts"]
+						}
+					}
+				},
+				{
+					"name": "Get All Abouts",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/abouts",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "abouts"]
+						}
+					}
+				},
+				{
+					"name": "Get About by ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/abouts/{{aboutId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "abouts", "{{aboutId}}"]
+						}
+					}
+				},
+				{
+					"name": "Update About",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"icon\": \"FaPaintBrush\",\n  \"title\": \"UX Design Focused\",\n  \"description\": \"Improving usability and crafting modern interfaces with Figma and React.\",\n  \"color\": \"purple\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/abouts/{{aboutId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "abouts", "{{aboutId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete About",
+					"request": {
+						"method": "DELETE",
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/abouts/{{aboutId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "abouts", "{{aboutId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "Add Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"SecurePay QR – Modern Payment Platform\",\n  \"description\": \"Stripe ile entegre, gerçek zamanlı ödeme takibi ve otomatik QR kod üretimi sağlayan, güvenli ve ölçeklenebilir Spring Boot tabanlı ödeme platformu.\",\n  \"image\": \"https://example.com/securepay-qr.png\",\n  \"tech\": [\"Spring Boot\", \"Stripe API\", \"JWT\", \"QR Codes\"],\n  \"icons\": [\"FaServer\", \"FaStripe\", \"FaMobileAlt\"],\n  \"demo\": \"https://securepay-qr-demo.vercel.app\",\n  \"code\": \"https://github.com/orhanturkmenoglu/securepay-qr\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/projects",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "projects"]
+						}
+					}
+				},
+				{
+					"name": "Get Projects",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/projects",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "projects"]
+						}
+					}
+				},
+				{
+					"name": "Get Project by ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/projects/{{projectId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "projects", "{{projectId}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"SecurePay QR – Updated\",\n  \"description\": \"Güncellenmiş açıklama.\",\n  \"image\": \"https://example.com/securepay-qr.png\",\n  \"tech\": [\"Spring Boot\", \"Stripe API\", \"JWT\"],\n  \"icons\": [\"FaServer\", \"FaStripe\"],\n  \"demo\": \"https://securepay-qr-demo.vercel.app\",\n  \"code\": \"https://github.com/orhanturkmenoglu/securepay-qr\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/projects/{{projectId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "projects", "{{projectId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Project",
+					"request": {
+						"method": "DELETE",
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/projects/{{projectId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "projects", "{{projectId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Skill",
+			"item": [
+				{
+					"name": "Add Skill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Backend Development\",\n  \"icon\": \"FaServer\",\n  \"description\": \"Developing robust backend services and APIs with Spring Boot.\",\n  \"tags\": [\"Java\", \"Spring Boot\", \"Microservices\", \"JWT\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/skills",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "skills"]
+						}
+					}
+				},
+				{
+					"name": "Get Skills",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/skills",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "skills"]
+						}
+					}
+				},
+				{
+					"name": "Update Skill",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Backend & API Development\",\n  \"icon\": \"FaServer\",\n  \"description\": \"Building secure REST APIs with Spring Boot and OAuth2.\",\n  \"tags\": [\"Java\", \"Spring Boot\", \"OAuth2\", \"PostgreSQL\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/skills/{{skillId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "skills", "{{skillId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Skill",
+					"request": {
+						"method": "DELETE",
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/skills/{{skillId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "skills", "{{skillId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Work",
+			"item": [
+				{
+					"name": "Add Work",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"role\": \"Senior Backend Developer\",\n  \"company\": \"FinTech Solutions\",\n  \"duration\": \"2021 - Present\",\n  \"description\": \"Leading backend development, designing microservices, integrating payment systems, and mentoring junior developers.\",\n  \"color\": \"purple\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/works",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "works"]
+						}
+					}
+				},
+				{
+					"name": "Get Works",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/works",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "works"]
+						}
+					}
+				},
+				{
+					"name": "Delete Work",
+					"request": {
+						"method": "DELETE",
+						"url": {
+							"raw": "http://localhost:8080/api/v1.0/works/{{workId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "v1.0", "works", "{{workId}}"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
