@@ -20,8 +20,7 @@ public class User {
     private String email;
     private String password;
     private String role;
-    private String status;
-    private String image;
+    private Boolean isAccountVerified;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

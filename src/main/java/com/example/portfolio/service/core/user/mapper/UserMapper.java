@@ -11,8 +11,7 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", constant = "USER",ignore = true)
-    @Mapping(target = "status", constant = "ACTIVE",ignore = true)
-    @Mapping(target = "image", ignore = true)
+    @Mapping(target = "isAccountVerified",ignore = true)
     @Mapping(target = "createdAt",ignore = true)
     @Mapping(target = "updatedAt",ignore = true)
     User toEntity(RegisterRequestDTO dto);

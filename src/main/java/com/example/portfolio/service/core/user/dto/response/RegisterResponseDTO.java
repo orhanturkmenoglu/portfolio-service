@@ -11,8 +11,7 @@ public record RegisterResponseDTO(
         String fullName,
         String email,
         String role,
-        String status,
-        String image,
+        Boolean status,
         @JsonFormat(pattern = "dd-MM-yyyy")
         LocalDateTime createdAt,
         @JsonFormat(pattern = "dd-MM-yyyy")
