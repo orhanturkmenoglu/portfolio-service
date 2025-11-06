@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/works")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 @Tag(name = "Work", description = "Work API - Manage portfolio work experiences")
 public class WorkController {
 

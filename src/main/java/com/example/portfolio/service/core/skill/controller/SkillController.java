@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/skills")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 @Tag(name = "Skill", description = "Skill API - Manage portfolio skills")
 public class SkillController {
 

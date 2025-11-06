@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/projects")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 @Tag(name = "Project", description = "Project API - Manage portfolio projects")
 public class ProjectController {
 

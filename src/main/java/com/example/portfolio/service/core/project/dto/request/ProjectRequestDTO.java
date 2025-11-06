@@ -23,7 +23,6 @@ public class ProjectRequestDTO {
     @Schema(description = "Description of the project", example = "This is a project")
     private String description;
 
-    @NotBlank(message = "Image is required")
     @Schema(description = "Image of the project", example = "https://example.com/image.jpg")
     private String image;
 
