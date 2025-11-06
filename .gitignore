@@ -1,12 +1,8 @@
-# HELP file
 HELP.md
-
-# Maven wrapper
+target/
 .mvn/wrapper/maven-wrapper.jar
-
-# Include all target folders
-# (remove ignore rules for src/main/**/target or src/test/**/target)
-/target/
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 ### STS ###
 .apt_generated
