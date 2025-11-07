@@ -30,7 +30,9 @@ public class SecurityConfig {
                     "/abouts",
                     "/projects",
                     "/skills",
-                    "/works").permitAll().anyRequest().authenticated();
+                    "/export/**",
+                    "/works").permitAll()
+                    .anyRequest().authenticated();
         }).sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
