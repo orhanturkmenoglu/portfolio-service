@@ -7,7 +7,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +16,6 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -27,10 +25,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final CustomUserDetailsService userDetailsService;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-    private static  final List<String> EXCLUDE_URL =List.of(
-            "/auth/login",
-            "/auth/register"
-    );
+   /* private static  final List<String> EXCLUDE_URL =List.of(
+            "/api/v1.0/auth/login",
+            "/api/v1.0/auth/register"
+    );*/
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -49,12 +47,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       }
 
       token = authHeader.substring(7);
+      System.out.println("Token :"+token);
       username = jwtUtil.extractUsername(token);
+      System.out.println("Username :"+username);
 
 
       if (username !=null && SecurityContextHolder.getContext().getAuthentication()==null) {
           var user =  userDetailsService.loadUserByUsername(username);
-
+          System.out.println("User :"+user.toString());
           if (jwtUtil.isValidToken(token,user)){
               var authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
               authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -65,9 +65,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    @Override
+    /*@Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
          return EXCLUDE_URL.stream()
                 .anyMatch(url->antPathMatcher.match(url, request.getServletPath()));
-    }
+    }*/
 }
