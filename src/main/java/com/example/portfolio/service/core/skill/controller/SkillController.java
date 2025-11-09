@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -101,6 +102,23 @@ public class SkillController {
         ));
     }
 
+    // 🧮 Only ADMIN can access this endpoint
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/count")
+    @Operation(
+            summary = "Count skills for a user (ADMIN only)",
+            description = "Returns the total number of skills for a specific user. Accessible only by ADMIN.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Count successful",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = BaseResponse.class))),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Only ADMIN can access")
+            }
+    )
+    public ResponseEntity<BaseResponse<Long>> countSkills() {
+        long count = skillService.countSkills();
+        return ResponseEntity.ok(BaseResponse.success(count, "Skill count fetched successfully", HttpStatus.OK.value()));
+    }
     @Operation(
             summary = "Update skill by ID",
             description = "Updates an existing skill by its ID.",

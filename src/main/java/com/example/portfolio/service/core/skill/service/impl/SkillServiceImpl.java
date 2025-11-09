@@ -5,6 +5,8 @@ import com.example.portfolio.service.core.skill.dto.response.SkillResponseDTO;
 import com.example.portfolio.service.core.skill.mapper.SkillMapper;
 import com.example.portfolio.service.core.skill.repository.SkillRepository;
 import com.example.portfolio.service.core.skill.service.SkillService;
+import com.example.portfolio.service.core.user.dto.response.ProfileDTO;
+import com.example.portfolio.service.core.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,22 +23,25 @@ import java.util.Objects;
 public class SkillServiceImpl implements SkillService {
     private final SkillRepository skillRepository;
     private final SkillMapper skillMapper;
+    private final UserService userService;
 
     @Transactional
     @Override
     public SkillResponseDTO createSkill(SkillRequestDTO requestDTO) {
-       log.info("Creating skill: {}", requestDTO);
-       if (Objects.isNull(requestDTO)) {
-           throw new IllegalArgumentException("RequestDTO cannot be null");
-       }
+        log.info("Creating skill: {}", requestDTO);
+        if (Objects.isNull(requestDTO)) {
+            throw new IllegalArgumentException("RequestDTO cannot be null");
+        }
 
-       var skill = skillMapper.toEntity(requestDTO);
-       skill.setCreatedAt(LocalDateTime.now());
-       skill.setUpdatedAt(LocalDateTime.now());
+        var skill = skillMapper.toEntity(requestDTO);
+        skill.setCreatedAt(LocalDateTime.now());
+        skill.setUpdatedAt(LocalDateTime.now());
+        skill.setUserId(userService.getProfile().id());
 
-       var savedSkill = skillRepository.save(skill);
-       return skillMapper.toResponseDTO(savedSkill);
+        var savedSkill = skillRepository.save(skill);
+        return skillMapper.toResponseDTO(savedSkill);
     }
+
 
     @Cacheable("skills")
     @Override
@@ -57,16 +62,16 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public SkillResponseDTO updateSkill(String id, SkillRequestDTO requestDTO) {
-       log.info("Updating skill with id: {}", id);
+        log.info("Updating skill with id: {}", id);
 
-       var existingSkill = skillRepository.findById(id)
-               .orElseThrow(() -> new IllegalArgumentException("Skill not found"));
+        var existingSkill = skillRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Skill not found"));
 
-       skillMapper.updateEntityFromDto(requestDTO, existingSkill);
-       existingSkill.setUpdatedAt(LocalDateTime.now());
-       var updatedSkill = skillRepository.save(existingSkill);
-       log.info("Updated skill: {}", updatedSkill);
-       return skillMapper.toResponseDTO(updatedSkill);
+        skillMapper.updateEntityFromDto(requestDTO, existingSkill);
+        existingSkill.setUpdatedAt(LocalDateTime.now());
+        var updatedSkill = skillRepository.save(existingSkill);
+        log.info("Updated skill: {}", updatedSkill);
+        return skillMapper.toResponseDTO(updatedSkill);
     }
 
     @Override
@@ -81,5 +86,11 @@ public class SkillServiceImpl implements SkillService {
                             throw new IllegalArgumentException("Skill not found");
                         }
                 );
+    }
+
+    @Override
+    public long countSkills() {
+        ProfileDTO profile = userService.getProfile();
+        return skillRepository.countByUserId(profile.id());
     }
 }

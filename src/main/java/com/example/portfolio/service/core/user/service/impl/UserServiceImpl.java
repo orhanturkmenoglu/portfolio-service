@@ -5,8 +5,10 @@ import com.example.portfolio.service.common.utils.JwtUtil;
 import com.example.portfolio.service.core.user.dto.request.LoginRequestDTO;
 import com.example.portfolio.service.core.user.dto.request.RegisterRequestDTO;
 import com.example.portfolio.service.core.user.dto.response.LoginResponseDTO;
+import com.example.portfolio.service.core.user.dto.response.ProfileDTO;
 import com.example.portfolio.service.core.user.dto.response.RegisterResponseDTO;
 import com.example.portfolio.service.core.user.mapper.UserMapper;
+import com.example.portfolio.service.core.user.model.User;
 import com.example.portfolio.service.core.user.repository.UserRepository;
 import com.example.portfolio.service.core.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -80,6 +83,27 @@ public class UserServiceImpl implements UserService {
         return LoginResponseDTO.builder()
                 .email(requestDTO.getEmail())
                 .token(token)
+                .build();
+    }
+
+    @Override
+    public ProfileDTO getProfile() {
+
+        // kullanıcı login olacak
+        // login olan kullanıcı aktif olacak
+        // kullanıcı profilini getirecek
+        var authenticatedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("Authenticated user: {}", authenticatedUser);
+
+        var user = userRepository.findByEmail(authenticatedUser)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return ProfileDTO.builder()
+                .fullName(user.getFullName())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 }

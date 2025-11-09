@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-11-07T11:02:27+0300",
+    date = "2025-11-09T13:14:37+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 24.0.1 (Oracle Corporation)"
 )
 @Component
@@ -28,7 +28,6 @@ public class ProjectMapperImpl implements ProjectMapper {
         String description = null;
         String image = null;
         List<String> tech = null;
-        List<String> icons = null;
         String demo = null;
         String code = null;
         LocalDateTime createdAt = null;
@@ -42,16 +41,12 @@ public class ProjectMapperImpl implements ProjectMapper {
         if ( list != null ) {
             tech = new ArrayList<String>( list );
         }
-        List<String> list1 = project.getIcons();
-        if ( list1 != null ) {
-            icons = new ArrayList<String>( list1 );
-        }
         demo = project.getDemo();
         code = project.getCode();
         createdAt = project.getCreatedAt();
         updatedAt = project.getUpdatedAt();
 
-        ProjectResponseDTO projectResponseDTO = new ProjectResponseDTO( id, title, description, image, tech, icons, demo, code, createdAt, updatedAt );
+        ProjectResponseDTO projectResponseDTO = new ProjectResponseDTO( id, title, description, image, tech, demo, code, createdAt, updatedAt );
 
         return projectResponseDTO;
     }
@@ -70,10 +65,6 @@ public class ProjectMapperImpl implements ProjectMapper {
         List<String> list = projectRequestDTO.getTech();
         if ( list != null ) {
             project.tech( new ArrayList<String>( list ) );
-        }
-        List<String> list1 = projectRequestDTO.getIcons();
-        if ( list1 != null ) {
-            project.icons( new ArrayList<String>( list1 ) );
         }
         project.demo( projectRequestDTO.getDemo() );
         project.code( projectRequestDTO.getCode() );
@@ -104,22 +95,6 @@ public class ProjectMapperImpl implements ProjectMapper {
             List<String> list = dto.getTech();
             if ( list != null ) {
                 project.setTech( new ArrayList<String>( list ) );
-            }
-        }
-        if ( project.getIcons() != null ) {
-            List<String> list1 = dto.getIcons();
-            if ( list1 != null ) {
-                project.getIcons().clear();
-                project.getIcons().addAll( list1 );
-            }
-            else {
-                project.setIcons( null );
-            }
-        }
-        else {
-            List<String> list1 = dto.getIcons();
-            if ( list1 != null ) {
-                project.setIcons( new ArrayList<String>( list1 ) );
             }
         }
         project.setDemo( dto.getDemo() );

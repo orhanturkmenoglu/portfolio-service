@@ -26,9 +26,6 @@ public record ProjectResponseDTO(
         @Schema(description = "Project tech", example = "Project 1 link", required = true)
         List<String> tech,
 
-        @Schema(description = "Project icons", example = "Project 1 icons", required = true)
-        List<String> icons,
-
         @Schema(description = "Project demo", example = "Project 1 demo", required = true)
         String demo,
 

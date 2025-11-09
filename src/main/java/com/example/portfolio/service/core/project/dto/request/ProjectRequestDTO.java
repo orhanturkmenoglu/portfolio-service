@@ -30,10 +30,6 @@ public class ProjectRequestDTO {
     @Schema(description = "Technologies used in the project", example = "[\"Java\", \"Spring Boot\"]")
     private List<@Size(min = 1) String> tech;
 
-    @Size(min = 1, message = "At least one icon is required")
-    @Schema(description = "Icons of the project", example = "[\"icon1\", \"icon2\"]")
-    private List<@Size(min = 1) String> icons;
-
     @NotBlank(message = "Demo link is required")
     @Schema(description = "Demo link of the project", example = "https://example.com/demo")
     private String demo;

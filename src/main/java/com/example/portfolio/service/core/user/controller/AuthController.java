@@ -3,6 +3,7 @@ package com.example.portfolio.service.core.user.controller;
 import com.example.portfolio.service.core.user.dto.request.LoginRequestDTO;
 import com.example.portfolio.service.core.user.dto.request.RegisterRequestDTO;
 import com.example.portfolio.service.core.user.dto.response.LoginResponseDTO;
+import com.example.portfolio.service.core.user.dto.response.ProfileDTO;
 import com.example.portfolio.service.core.user.dto.response.RegisterResponseDTO;
 import com.example.portfolio.service.core.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,11 @@ public class AuthController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO requestDTO) {
         LoginResponseDTO response = userService.login(requestDTO);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileDTO> getProfile() {
+        var response = userService.getProfile();
+        return ResponseEntity.ok().body(response);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.portfolio.service.core.skill.model;
 
 
+import com.example.portfolio.service.core.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,12 @@ import java.util.List;
 public class Skill {
     @Id
     private String id;
+    private String userId;
     private String title;
     private String icon;
     private String description;
     private List<String> tags;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
 }

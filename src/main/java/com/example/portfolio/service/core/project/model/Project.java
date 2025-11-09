@@ -25,7 +25,6 @@ public class Project {
     private String description;
     private String image;            // image URL or path
     private List<String> tech;       // ["React","Spring Boot",...]
-    private List<String> icons;      // store icon names or class names
     private String demo;
     private String code;
 

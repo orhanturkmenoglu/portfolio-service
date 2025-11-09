@@ -11,4 +11,6 @@ public interface SkillService {
     SkillResponseDTO getSkillById(String id);
     SkillResponseDTO updateSkill(String id, SkillRequestDTO requestDTO);
     void deleteSkill(String id);
+
+    long countSkills();
 }
